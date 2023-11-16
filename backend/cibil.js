@@ -1,68 +1,55 @@
 const express = require('express');
-const bodyParser = require('body-parser');
-const jwt = require('jsonwebtoken');
+const { MongoClient, ObjectId } = require('mongodb');
 const app = express();
-const PORT = 3000;
+const port = 3000;
 
-app.use(bodyParser.json());
+const mongoURI = 'your_mongo_db_connection_string'; // Replace with your MongoDB connection string
+const dbName = 'your_database_name'; // Replace with your database name
+const collectionName = 'loans'; // Replace with your collection name
 
-// Simulated user data
-const users = [
-  { id: 1, username: 'user1', password: 'password1', bankId: 'bank1' },
-  { id: 2, username: 'user2', password: 'password2', bankId: 'bank2' },
-  // Add more users as needed
-];
-
-// Secret key for signing JWT
-const secretKey = 'your_secret_key';
-
-// Middleware for authenticating user based on JWT
-function authenticateUser(req, res, next) {
-  const { authorization } = req.headers;
-
-  if (!authorization) {
-    return res.status(401).json({ error: 'Unauthorized' });
+// Connect to MongoDB
+MongoClient.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true }, (err, client) => {
+  if (err) {
+    console.error('Error connecting to MongoDB:', err);
+    return;
   }
 
-  const token = authorization.replace('Bearer ', '');
+  const db = client.db(dbName);
+  const loansCollection = db.collection(collectionName);
 
-  jwt.verify(token, secretKey, (err, user) => {
-    if (err) {
-      return res.status(401).json({ error: 'Invalid token' });
+  // Endpoint to get loan details for a given customerId
+  app.get('/loans/:customerId', async (req, res) => {
+    const customerId = req.params.customerId;
+
+    try {
+      // Find the loan based on customerId and requestFlag condition
+      const foundLoan = await loansCollection.findOne({ customerId: customerId, requestFlag: false });
+
+      if (!foundLoan) {
+        // If no matching loan is found, return a 404 Not Found status
+        res.status(404).send('Loan not found for the specified customer and condition.');
+      } else {
+        // If a matching loan is found, respond with the loan details
+        res.json({
+          loanId: foundLoan._id, // Assuming your MongoDB document has an _id field
+          bankId: foundLoan.bankId,
+          customerId: foundLoan.customerId,
+          loanAmount: foundLoan.loanAmount,
+          interest: foundLoan.interest,
+          loanType: foundLoan.loanType,
+          emiAmount: foundLoan.emiAmount,
+          startDate: foundLoan.startDate,
+          duration: foundLoan.duration,
+        });
+      }
+    } catch (error) {
+      console.error('Error fetching loan:', error);
+      res.status(500).send('Internal Server Error');
     }
-
-    req.user = user; // Store user information in req.user
-    next();
   });
-}
 
-// Route for user login
-app.post('/login', (req, res) => {
-  const { username, password } = req.body;
-  const user = users.find(u => u.username === username && u.password === password);
-
-  if (user) {
-    // Create a JWT and send it as a response
-    const token = jwt.sign({ id: user.id, username: user.username, bankId: user.bankId }, secretKey);
-    res.json({ message: 'Login successful', token });
-  } else {
-    res.status(401).json({ error: 'Invalid credentials' });
-  }
+  // Start the server
+  app.listen(port, () => {
+    console.log(`Server is running on http://localhost:${port}`);
+  });
 });
-
-// Use the authenticateUser middleware for routes that require authentication
-app.use('/loans', authenticateUser);
-
-// Your loan routes go here, and they can access the authenticated user information via req.user
-app.get('/loans', (req, res) => {
-  const { bankId } = req.user;
-  // Retrieve loans based on bankId
-  // ...
-  res.json({ message: 'Retrieving loans for bankId: ' + bankId });
-});
-
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-});
-
-  

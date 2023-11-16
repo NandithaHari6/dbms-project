@@ -1,5 +1,6 @@
 const Customer = require("../models/customermodel.js");
 const mongoose = require("mongoose");
+const loan=require("../models/loanModel")
 const addNewCustomer = async (req, res) => {
     const { selectedBank,
         customerId,
@@ -50,6 +51,58 @@ function determineBankId(selectedBank) {
 
     return bankIdMap[selectedBank] || 'defaultBank'; // Default to a fallback bank if the mapping is not found
 }
+const getLoanDetails=async(req, res) => {
+    const customerId = req.params.customerId;
 
+    try {
+      // Find the loan based on customerId and requestFlag condition
+      const foundLoan = await loan.find({ customerId,requestFlag: false});
+      
 
-module.exports = { addNewCustomer };
+      if (!foundLoan) {
+        // If no matching loan is found, return a 404 Not Found status
+        res.status(404).send('Loan not found for the specified customer and condition.');
+      } else {
+       
+        // If a matching loan is found, respond with the loan details
+       /* res.json({
+          loanId: foundLoan._id, // Assuming your MongoDB document has an _id field
+          bankId: foundLoan.bankId,
+          customerId: foundLoan.customerId,
+          loanAmount: foundLoan.loanAmount,
+          interest: foundLoan.interest,
+          loanType: foundLoan.loanType,
+          emiAmount: foundLoan.emiAmount,
+          startDate: foundLoan.startDate,
+          duration: foundLoan.duration,
+        });*/
+        res.json(foundLoan);
+      }
+    } catch (error) {
+      console.error('Error fetching loan:', error);
+      res.status(500).send('Internal Server Error');
+    }
+  };
+  const getPersonalDetails=async(req, res) => {
+    const customerId = req.params.customerId;
+
+    try {
+      // Find the loan based on customerId and requestFlag condition
+      const customer = await Customer.find({ customerId});
+      
+
+      if (!customer) {
+        // If no matching loan is found, return a 404 Not Found status
+        res.status(404).send('Customer not added !! check your id');
+      } else {
+        res.json(customer);
+      }
+    } catch (error) {
+      console.error('Error getting customer dettails:', error);
+      res.status(500).send('Internal Server Error');
+    }
+  };
+
+  
+
+module.exports = { addNewCustomer,getLoanDetails,getPersonalDetails };

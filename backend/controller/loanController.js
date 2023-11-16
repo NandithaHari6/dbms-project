@@ -1,10 +1,8 @@
-const express = require('express');
-const router = express.Router();
+
 const Customer = require('../models/customermodel'); // Import your Customer model
 const Loan = require('../models/loanModel'); // Import your Loan model
 
-
-router.post('/requestLoan', async (req, res) => {
+async function addLoan(req, res){
   const { customerId, loanAmount, loanType, bankId } = req.body;
 
   try {
@@ -63,9 +61,28 @@ router.post('/requestLoan', async (req, res) => {
     console.error('Error processing loan request:', error);
     res.status(500).json({ error: 'Internal Server Error' });
   }
-});
+}
+const getAllLoans=async(req, res) => {
+  const bankId = req.params.bankId;
 
-module.exports = router;
+  try {
+    // Find the loan based on customerId and requestFlag condition
+    const foundLoan = await Loan.find({ bankId,requestFlag: false});
+    
+
+    if (!foundLoan) {
+      // If no matching loan is found, return a 404 Not Found status
+      res.status(404).send('Loan not found for the bank.');
+    } else {
+      res.json(foundLoan);
+    }
+  } catch (error) {
+    console.error('Error fetching loan:', error);
+    res.status(500).send('Internal Server Error');
+  }
+};
+
+module.exports ={addLoan,getAllLoans }  ;
 async function calculateCIBILScore(customerId){
     try {
       // Fetch all loans for the customer with requestFlag set to false

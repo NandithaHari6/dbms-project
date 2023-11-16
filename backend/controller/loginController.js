@@ -7,19 +7,20 @@ const router = express.Router();
 
 // Login route
 router.post('/login', async (req, res) => {
-  const {customerId: username, customerPassword:password} = req.body;
+  const {customerId: username, customerPassword:password ,userType} = req.body;
 
   try {
-    // Find the user by username
-    console.log(username);
-    console.log(req.body);
+    
     const user = await Userdata.findOne({customerId:username});
-    console.log(user);
+    
 
     // If the user does not exist, or the passwords do not match, send an error response
     if (!user || !(await bcrypt.compare(password, user.customerPassword))) {
+      
       return res.status(401).json({ error: 'Invalid username or password' });
+
     }else{
+      
       return res.status(200).json({ msg :"success" });
     }
 

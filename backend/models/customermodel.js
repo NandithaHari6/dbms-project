@@ -53,6 +53,11 @@ const customer=new mongoose.Schema({
 
 
 });
+customer.methods.toJSON = function () {
+  const userObject = this.toObject();
+  delete userObject.password;
+  return userObject;
+};
 // Hash the password before saving it to the database
 customer.pre('save', async function (next) {
   try {
@@ -72,6 +77,7 @@ customer.pre('save', async function (next) {
     next(error);
   }
 });
+
 function incrementAccountNumber(accountNumber) {
   const number = parseInt(accountNumber) + 1;
   return number.toString().padStart(12, '0');
@@ -80,4 +86,5 @@ function incrementAccountNumber(accountNumber) {
 
 
 const Customer=mongoose.model("Customer",customer);
+
 module.exports=  Customer ;

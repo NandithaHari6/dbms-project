@@ -20,13 +20,13 @@ const SignupForm=({submitForm})=>{
                         <input
                          className="input"
                           type="text" 
-                          name="customerName"
-                          value={values.customerName}
+                          name="customerId"
+                          value={values.customerId}
                           onChange={handleChange}
                           />
                           {errors.customerName && <p className="error">{errors.customerName}</p>}
                     </div>
-                    <div className="email">
+                    {/* <div className="email">
                         <label className="label">Email</label>
                         <input 
                         className="input" 
@@ -36,7 +36,7 @@ const SignupForm=({submitForm})=>{
                          onChange={handleChange}
                          />
                          {errors.email && <p className="error">{errors.email}</p>}
-                    </div>
+                    </div> */}
                     <div className="password">
                         <label className="label">Password</label>
                         <input
@@ -48,17 +48,17 @@ const SignupForm=({submitForm})=>{
                           />
                           {errors.customerPassword && <p className="error">{errors.customerPassword}</p>}             
                              </div>
-                    <div className="radio">
+                    { <div className="radio">
                         <label>
-                            <input type="radio" value="customer" checked={true}/>
+                            <input type="radio" name="userType" value="customer"   onChange={handleChange}/>
                             Customer
                         </label>
                         <span className="radio-spacing"></span>
                         <label>    
-                            <input type="radio" value="bankmanager" />
+                            <input type="radio" name="userType" value="bankmanager" onChange={handleChange} />
                             Bank Manager
                         </label>                                               
-                    </div>
+                    </div> }
                     <div className="button-container">
                         <button className="submit" onClick={handleFormSubmit}>
                             Sign In</button>
