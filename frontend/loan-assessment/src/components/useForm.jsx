@@ -38,7 +38,7 @@ const handleFormSubmit=async(event)=>{
            console.log('Form submitted successfully');
            submitForm(values.userType);
         } else{
-          <Error />
+       
           console.error('Form submission failed');
         }
       } catch (error) {

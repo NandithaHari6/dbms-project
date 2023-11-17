@@ -20,8 +20,9 @@ router.post('/login', async (req, res) => {
       return res.status(401).json({ error: 'Invalid username or password' });
 
     }else{
+     
+      return res.status(200).json({ msg :"success"});
       
-      return res.status(200).json({ msg :"success" });
     }
 
     // If the passwords match, redirect to another route (e.g., dashboard)res.redirect('/dashboard'); // Replace '/dashboard' with the desired route
