@@ -57,9 +57,12 @@ customer.methods.toJSON = function () {
 // Hash the password before saving it to the database
 customer.pre('save', async function (next) {
   try {
-    const salt = await bcrypt.genSalt(10);
+    if (this.isModified('customerPassword')){
+         const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(this.customerPassword, salt);
     this.customerPassword = hashedPassword;
+    }
+ 
     
       if (!this.accountNumber) {
         // Find the maximum accountNumber in the database and increment it
