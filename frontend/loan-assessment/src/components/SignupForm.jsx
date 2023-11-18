@@ -1,9 +1,27 @@
 import React,{useEffect, useState} from "react";
 import useForm from "./useForm";
+import { Navigate,Link } from "react-router-dom";
+import './SignupForm.css'
+import './bank5.jpg'
+import usericon from './person.png'
+import passwordicon from './password.png'
 
 const SignupForm=({submitForm})=>{
     
     const {handleChange,handleFormSubmit,values,errors}=useForm(submitForm);
+    const [selectedRole, setSelectedRole] = useState('customer');
+    const handleRadioChange = (event) => {
+    setSelectedRole(event.target.value);
+    };        
+    
+    
+    const handleSignupClick = () => {
+      // Perform any signup logic here
+      // Then, navigate to the registration page
+      console.log("Signup button clicked");
+      return <Navigate to="/registration" />
+    };  
+  
 
     return(
         <div className="right-content">
@@ -16,59 +34,60 @@ const SignupForm=({submitForm})=>{
                 </div>
                 <form className="form-wrapper">
                     <div className="name">
-                        <label className="label" >Username</label>
+                    <img src={usericon} alt=""/>
+                        <label className="label">Username </label>
                         <input
                          className="input"
                           type="text" 
-                          name="customerId"
-                          value={values.customerId}
+                          name="fullname" 
+                          value={values.fullname}
                           onChange={handleChange}
                           />
-                          {errors.customerName && <p className="error">{errors.customerName}</p>}
+                          {errors.fullname && <p className="error">{errors.fullname}</p>}
                     </div>
-                    {/* <div className="email">
-                        <label className="label">Email</label>
-                        <input 
-                        className="input" 
-                        type="email"
-                         name="email" 
-                         value={values.email}
-                         onChange={handleChange}
-                         />
-                         {errors.email && <p className="error">{errors.email}</p>}
-                    </div> */}
+                    
                     <div className="password">
+                    <img src={passwordicon} alt="" />
                         <label className="label">Password</label>
                         <input
                          className="input" 
                          type="password" 
-                         name="customerPassword"
-                          value={values.customerPassword}
+                         name="password"
+                          value={values.password}
                           onChange={handleChange}
                           />
-                          {errors.customerPassword && <p className="error">{errors.customerPassword}</p>}             
+                          {errors.password && <p className="error">{errors.password}</p>}             
                              </div>
-                    { <div className="radio">
+                    <div className="radio">
                         <label>
-                            <input type="radio" name="userType" value="customer"   onChange={handleChange}/>
+                            <input type="radio" value="customer" checked={selectedRole === 'customer'} onChange={handleRadioChange}/>
                             Customer
                         </label>
                         <span className="radio-spacing"></span>
                         <label>    
-                            <input type="radio" name="userType" value="bankmanager" onChange={handleChange} />
+                            <input type="radio" value="bankmanager" checked={selectedRole === 'bankmanager'}
+                              onChange={handleRadioChange}/>
                             Bank Manager
                         </label>                                               
-                    </div> }
+                    </div>
                     <div className="button-container">
                         <button className="submit" onClick={handleFormSubmit}>
-                            Sign In</button>
+                            Sign In
+                        </button>
+                        <Link to="/registration">
+                        <button className="submit" onClick={handleSignupClick}  >
+                           Sign Up
+                        </button>
+                        </Link>
+                        
                     </div>
                 </form>
+                
             </div>
         </div>
         </div>
         
-    )
+    );
 
 }
 export default SignupForm;

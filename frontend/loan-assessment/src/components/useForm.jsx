@@ -6,7 +6,7 @@ import BankManager from "../views/BankManager";
 const[values,setValues]=useState({
     customerId:"",
     customerPassword:"",
-    userType:""
+  
     
 });
 
