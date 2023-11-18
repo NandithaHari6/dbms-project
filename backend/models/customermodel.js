@@ -18,11 +18,7 @@ const customer=new mongoose.Schema({
         required:[true,"Please enter date of birth"]
         },
     address:{
-        houseName:String,
-        street:String,
-        city:String,
-        pincode:Number,
-        country:String
+       type:String
     },
     phoneNumber:{
         type:Number,

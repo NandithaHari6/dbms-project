@@ -1,7 +1,7 @@
 import SignupForm from "./SignupForm";
 import React ,{useState}from "react";
 //import SignupFormSuccess from "./SignupFormSuccess";
-import Customer from "../views/Customer";
+//import Customer from "../views/Customer";
 import BankManager from "../views/BankManager";
 import { BrowserRouter as Router, Route,Routes} from 'react-router-dom';
 
@@ -22,7 +22,8 @@ const Form=()=>{
    
          
           { (!formIsSubmitted)? <SignupForm submitForm={submitForm}/> : (
-           user === "customer" ? <Customer />
+           user === "customer" ? (<>
+           Customer page</>)
           : <BankManager />
           ) }
             
