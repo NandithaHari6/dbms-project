@@ -1,8 +1,7 @@
 
 const Customer = require('../models/customermodel'); // Import your Customer model
 const Loan = require('../models/loanModel'); // Import your Loan model
-
-async function addLoan(req, res){
+ async function addLoan(req, res){
   const { customerId, loanAmount, loanType, bankId } = req.body;
 
   try {
@@ -105,3 +104,4 @@ async function calculateCIBILScore(customerId){
       console.error('Error calculating CIBIL score:', error);
       throw error;
     }}
+    

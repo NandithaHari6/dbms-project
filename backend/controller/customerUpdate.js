@@ -5,7 +5,7 @@ const Customer = require('../models/customermodel');
 const router = express.Router();
 
 // Update customer information excluding the password
-router.post('/updateCust:customerId', async (req, res) => {
+router.post('/update:customerId', async (req, res) => {
   const { customerId } = req.params;
   const { address, nominee, relation, phoneNumber } = req.body;
 

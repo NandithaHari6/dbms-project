@@ -1,0 +1,54 @@
+
+@import url('https://fonts.googleapis.com/css2?family=PT+Sans&display=swap');
+body{
+  margin: 0;
+  padding: 0;
+  background: linear-gradient(135deg,rgba(3, 5, 46, 0.956), rgba(32, 5, 75, 0.3)),
+      url('./bank5.jpg') no-repeat;
+  background-size: cover;
+  
+}
+.regcontainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 1000px; /* Adjust as needed */
+}
+
+.registration-form {
+  width: 500px;
+  max-height:900px;
+  padding: 25px;
+  background: linear-gradient(150deg, #818FB4, #F5E8C7); /* Adjust colors as needed */
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+.form-group{
+  margin-bottom: 10px;
+}
+.label{
+  font-size: 16px;
+  color: rgb(10, 4, 22);
+}
+.input{
+  font-size: 14px;
+  font-weight: 300;
+  color: #363062;
+}
+.regtitle {
+  text-align: center;
+  color: #fff; /* Set text color to match your design */
+}
+.link-to-main-page {
+  display: block;
+  text-align: center;
+  font-size: 18px;
+  margin-top: 10px;
+  color: #818FB4;
+  font-weight: 300;
+  text-decoration: none; /* Remove underline */
+}
+
+.link-to-main-page:hover {
+  color: #363062;/* Underline on hover */
+}

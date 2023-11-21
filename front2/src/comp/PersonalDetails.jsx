@@ -1,23 +1,27 @@
 import React, { useState } from 'react';
-
+import useForm from "../components/useForm.jsx";
 function PersonalDetails() {
   const [customerId, setCustomerId] = useState('');
   const [personalDetails, setPersonalDetails] = useState(null);
   const [error, setError] = useState(null);
-
+  const {  values} = useForm();
   const handleCustomerIdChange = (e) => {
     setCustomerId(e.target.value);
   };
 
   const handleFetchPersonalDetails = async () => {
     try {
+      
       const response = await fetch(`https://dbms-backend-82cd.onrender.com/customer/getPersonalDetails${customerId}`);
       if (!response.ok) {
         throw new Error('Failed to fetch personal details');
       }
 
       const data = await response.json();
-      setPersonalDetails(data[0]); // Assuming the response is an array with a single object
+      console.log(data);
+      setPersonalDetails(data[0]); 
+
+      // Assuming the response is an array with a single object
       setError(null);
     } catch (error) {
       console.error(error);

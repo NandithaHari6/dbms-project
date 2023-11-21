@@ -14,7 +14,7 @@ app.use("/customer",customer);
 app.use("/loan",loan);
 app.use("/",login);
 
-app.use("/cust",customerUpdate);
+app.use("/customer",customerUpdate);
 
   
 

@@ -8,7 +8,7 @@ import LoanApplicationForm from './LoanApplicationForm';
 
 function BankPage() {
   return (
-    <Router>
+   
         
       <div>
         <nav>
@@ -33,7 +33,7 @@ function BankPage() {
           <Route path="/loan-application-form" element={<LoanApplicationForm />} />
         </Routes>
       </div>
-    </Router>
+ 
   );
 }
 

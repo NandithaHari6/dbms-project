@@ -8,7 +8,7 @@ import LoanDetailsByCustomer from './LoanDetailsByCustomer';
 
 function CustomerPage() {
   return (
-    <Router>
+ 
         
       <div>
         <nav>
@@ -25,13 +25,13 @@ function CustomerPage() {
 
        <Routes>
 
-          
+      
           <Route path="/cust-details" element={<PersonalDetails />} />
           <Route path="/loan-details-by-customer" element={<LoanDetailsByCustomer />} />
 
         </Routes>
       </div>
-    </Router>
+    
   );
 }
 

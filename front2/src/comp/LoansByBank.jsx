@@ -19,6 +19,7 @@ function LoansByBank() {
       }
 
       const data = await response.json();
+      console.log(data);
       setLoans(data);
       setError(null);
     } catch (error) {

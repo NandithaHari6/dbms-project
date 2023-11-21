@@ -95,6 +95,7 @@ const getLoanDetails=async(req, res) => {
         // If no matching loan is found, return a 404 Not Found status
         res.status(404).send('Customer not added !! check your id');
       } else {
+        console.log(customer);
         res.json(customer);
       }
     } catch (error) {
