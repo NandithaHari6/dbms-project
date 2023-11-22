@@ -63,8 +63,6 @@ async function addLoan(req, res){
   }
 }
 
-const Loan = require('../models/loanModel');
-
 async function deleteLoan(req, res) {
   const loanId = req.params.loanId;
 
