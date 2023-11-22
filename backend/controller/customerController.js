@@ -1,6 +1,38 @@
 const Customer = require("../models/customermodel.js");
 const mongoose = require("mongoose");
 const loan=require("../models/loanModel")
+const updateCustomerDetails = async (req, res) => {
+    const customerId = req.params.customerId;
+
+    // Extract the fields that you want to update from the request body
+    const { address, phoneNumber, nominee, relation } = req.body;
+
+    try {
+        // Find the customer based on customerId
+        const customer = await Customer.findOne({ customerId });
+
+        if (!customer) {
+            // If no matching customer is found, return a 404 Not Found status
+            res.status(404).send('Customer not found for the specified id.');
+        } else {
+            // Update the customer details with the new values
+            if (address) customer.address = address;
+            if (phoneNumber) customer.phoneNumber = phoneNumber;
+            if (nominee) customer.nominee = nominee;
+            if (relation) customer.relation = relation;
+
+            // Save the updated customer to the database, excluding customerPassword
+            const updatedCustomer = await customer.save({ fields: { customerPassword: 0 } });
+
+            // Respond with the updated customer details
+            res.json(updatedCustomer);
+        }
+    } catch (error) {
+        console.error('Error updating customer details:', error);
+        res.status(500).send('Internal Server Error');
+    }
+};
+
 const addNewCustomer = async (req, res) => {
     const { selectedBank,
         customerId,
@@ -105,4 +137,4 @@ const getLoanDetails=async(req, res) => {
 
   
 
-module.exports = { addNewCustomer,getLoanDetails,getPersonalDetails };
+module.exports = { addNewCustomer,getLoanDetails,getPersonalDetails, updateCustomerDetails};
