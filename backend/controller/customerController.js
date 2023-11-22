@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const loan=require("../models/loanModel")
 const updateCustomerDetails = async (req, res) => {
     const customerId = req.params.customerId;
+    console.log("helloooo");
 
     // Extract the fields that you want to update from the request body
     const { address, phoneNumber, nominee, relation } = req.body;
