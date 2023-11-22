@@ -77,6 +77,8 @@ async function deleteLoan(req, res) {
 
     // Delete the loan from the database
     await Loan.deleteOne({ loanId });
+    const updatedCIBILScore= await calculateCIBILScore(customerId);
+      await Customer.findOneAndUpdate({ customerId },  { cibilScore: updatedCIBILScore } );
 
     // Respond with a success message
     res.status(200).json({ message: 'Loan deleted successfully' });
