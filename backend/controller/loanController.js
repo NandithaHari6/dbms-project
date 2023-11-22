@@ -62,6 +62,32 @@ async function addLoan(req, res){
     res.status(500).json({ error: 'Internal Server Error' });
   }
 }
+
+const Loan = require('../models/loanModel');
+
+async function deleteLoan(req, res) {
+  const loanId = req.params.loanId;
+
+  try {
+    // Find the loan based on loanId
+    const loan = await Loan.findOne({ loanId });
+
+    if (!loan) {
+      // If no matching loan is found, return a 404 Not Found status
+      return res.status(404).json({ error: 'Loan not found for the specified ID.' });
+    }
+
+    // Delete the loan from the database
+    await Loan.deleteOne({ loanId });
+
+    // Respond with a success message
+    res.status(200).json({ message: 'Loan deleted successfully' });
+  } catch (error) {
+    console.error('Error deleting loan:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+}
+
 const getAllLoans=async(req, res) => {
   const bankId = req.params.bankId;
 
@@ -82,7 +108,7 @@ const getAllLoans=async(req, res) => {
   }
 };
 
-module.exports ={addLoan,getAllLoans }  ;
+module.exports ={addLoan,getAllLoans, deleteLoan }  ;
 async function calculateCIBILScore(customerId){
     try {
       // Fetch all loans for the customer with requestFlag set to false
